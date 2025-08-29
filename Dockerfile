@@ -1,8 +1,13 @@
 # Start from a very small Linux image
 FROM alpine:latest
 
+LABEL maintainer="Jasper Hof <jasper.hof@qgg.au.dk>" \
+      description="Docker image for LDAK" \
+      version="6.1"
+
 # Set working directory inside the container
-WORKDIR /data
+VOLUME ["/output"]
+WORKDIR /output
 
 # Set environment for resources
 ENV RESOURCES=/usr/local/bin
@@ -17,8 +22,14 @@ COPY src/gene_annotation_grch38 /usr/local/bin/gene_annotation_grch38
 # Make it executable
 RUN chmod a+x /usr/local/bin/ldak
 
-# Run it when the container starts
-#CMD ["./ldak6.1.linux"]
-#CMD ["echo", "test"]
+# Create a dedicated output directory and user
+RUN adduser -D ldakuser \
+    && mkdir -p /output \
+    && chown ldakuser:ldakuser /output
+
+# Switch to non-root user
+USER ldakuser
 
 ENTRYPOINT ["ldak"]
+
+CMD ["--help"]
