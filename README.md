@@ -1,7 +1,7 @@
 # LDAK in Docker
 
 This repository provides a Docker image for running [LDAK](https://ldak.org), a tool for genetic data analysis.  
-The image bundles the `ldak` binary together with reference resource files for convenience.
+The image bundles the `ldak` Linux binary together with reference resource files for convenience.
 
 ---
 
@@ -17,7 +17,7 @@ docker build -t ldak .
 
 Alternatively, download this directory directly and build using `docker build -t ldak .`.
 
-LDAK can then be run inside Docker, mounting your current working directory as the output location:
+LDAK can then be run inside Docker, mounting your current working directory as the `output` location:
 
 ``` 
 docker run --rm -v $(pwd):/output ldak --help
@@ -33,7 +33,7 @@ docker run --rm \
 
 ### Resources included
 
-The image include useful reference files inside /resources:
+The image include useful resources:
 
  - /resources/gene_annotation_grch37
  - /resources/gene_annotation_grch38
@@ -73,4 +73,4 @@ ldak-docker --make-snps geno --num-samples 1000 --num-snps 5000
 
 ### More info
 
-Please visit [www.ldak.org](www.ldak.org) or [www.ldak-kvik.com](www.ldak-kvik.com) for LDAK documentation.
+Please visit [www.ldak.org](https://www.ldak.org) or [www.ldak-kvik.com](https://www.ldak-kvik.com) for LDAK documentation.
