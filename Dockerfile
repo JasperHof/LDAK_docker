@@ -10,14 +10,14 @@ VOLUME ["/output"]
 WORKDIR /output
 
 # Set environment for resources
-ENV RESOURCES=/usr/local/bin
+ENV LDAK_RESOURCES=/resources
 
-ADD https://github.com/dougspeed/LDAK/blob/main/Resources/berisa.txt /usr/local/bin/berisa.txt
+ADD https://github.com/dougspeed/LDAK/blob/main/Resources/berisa.txt $LDAK_RESOURCES/berisa.txt
 
 # Copy your executable into the container
 COPY src/ldak6.1.linux /usr/local/bin/ldak
-COPY src/gene_annotation_grch37 /usr/local/bin/gene_annotation_grch37
-COPY src/gene_annotation_grch38 /usr/local/bin/gene_annotation_grch38
+COPY src/gene_annotation_grch37 $LDAK_RESOURCES/gene_annotation_grch37
+COPY src/gene_annotation_grch38 $LDAK_RESOURCES/gene_annotation_grch38
 
 # Make it executable
 RUN chmod a+x /usr/local/bin/ldak
