@@ -6,30 +6,36 @@ LABEL maintainer="Jasper Hof <jasper.hof@qgg.au.dk>" \
       version="6.1"
 
 # Set working directory inside the container
-VOLUME ["/output"]
 WORKDIR /output
 
 # Set environment for resources
 ENV LDAK_RESOURCES=/resources
 
-ADD https://github.com/dougspeed/LDAK/blob/main/Resources/berisa.txt $LDAK_RESOURCES/berisa.txt
+# Create resources directory
+RUN mkdir -p $LDAK_RESOURCES
 
-# Copy your executable into the container
+# Download resource file
+ADD https://raw.githubusercontent.com/dougspeed/LDAK/main/Resources/berisa.txt $LDAK_RESOURCES/berisa.txt
+
+# Copy your executables and resources
+COPY entrypoint.sh /usr/local/bin/entrypoint.sh
 COPY src/ldak6.1.linux /usr/local/bin/ldak
 COPY src/gene_annotation_grch37 $LDAK_RESOURCES/gene_annotation_grch37
 COPY src/gene_annotation_grch38 $LDAK_RESOURCES/gene_annotation_grch38
 
-# Make it executable
+# Make the binary executable
+RUN chmod +x /usr/local/bin/entrypoint.sh
 RUN chmod a+x /usr/local/bin/ldak
+RUN pwd
 
 # Create a dedicated output directory and user
 RUN adduser -D ldakuser \
     && mkdir -p /output \
-    && chown ldakuser:ldakuser /output
+    && chown ldakuser:ldakuser /output \
+    && chown -R ldakuser:ldakuser $LDAK_RESOURCES
 
 # Switch to non-root user
 USER ldakuser
 
-ENTRYPOINT ["ldak"]
-
-CMD ["--help"]
+# Default entrypoint
+ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
