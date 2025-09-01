@@ -18,13 +18,11 @@ RUN mkdir -p $LDAK_RESOURCES
 ADD https://raw.githubusercontent.com/dougspeed/LDAK/main/Resources/berisa.txt $LDAK_RESOURCES/berisa.txt
 
 # Copy your executables and resources
-COPY entrypoint.sh /usr/local/bin/entrypoint.sh
 COPY src/ldak6.1.linux /usr/local/bin/ldak
 COPY src/gene_annotation_grch37 $LDAK_RESOURCES/gene_annotation_grch37
 COPY src/gene_annotation_grch38 $LDAK_RESOURCES/gene_annotation_grch38
 
 # Make the binary executable
-RUN chmod +x /usr/local/bin/entrypoint.sh
 RUN chmod a+x /usr/local/bin/ldak
 RUN pwd
 
@@ -38,4 +36,4 @@ RUN adduser -D ldakuser \
 USER ldakuser
 
 # Default entrypoint
-ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
+ENTRYPOINT ["ldak"]
