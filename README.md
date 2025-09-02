@@ -22,6 +22,7 @@ LDAK can then be run inside Docker, mounting your current working directory as t
 ``` 
 docker run --rm -v $(pwd):/output ldak --help
 ``` 
+**Please Note:** if you are working in Windows Powershell, `$(pwd)` should be replaced with `${PWD}`.
 
 An example command generating a small genotype data set using LDAK:
 
